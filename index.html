@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Comprar Seguidores</title>
+    <style>
+        body { font-family: Arial; padding: 30px; background: #f5f5f5; }
+        input, button {
+            padding: 10px;
+            margin-top: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        h1 { color: #222; }
+        #resposta { margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Comprar Seguidores</h1>
+    <form id="pedidoForm">
+        <label>Link do perfil ou post:</label><br>
+        <input type="text" id="link" required><br>
+
+        <label>Quantidade:</label><br>
+        <input type="number" id="quantidade" required><br>
+
+        <button type="submit">Fazer Pedido</button>
+    </form>
+
+    <p id="resposta"></p>
+
+    <script>
+        document.getElementById('pedidoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const link = document.getElementById('link').value;
+            const quantidade = document.getElementById('quantidade').value;
+
+            const dados = new URLSearchParams();
+            dados.append('key', 'SUA_CHAVE_API_AQUI'); // Troque aqui pela sua chave real
+            dados.append('action', 'add');
+            dados.append('service', '1'); // ID do serviço (pode trocar)
+            dados.append('link', link);
+            dados.append('quantity', quantidade);
+
+            fetch('https://topsmm.club/api/v2', {
+                method: 'POST',
+                body: dados
+            })
+            .then(res => res.json())
+            .then(res => {
+                if (res.order) {
+                    document.getElementById('resposta').innerText = 'Pedido realizado com sucesso! ID do pedido: ' + res.order;
+                } else {
+                    document.getElementById('resposta').innerText = 'Erro: ' + JSON.stringify(res);
+                }
+            })
+            .catch(err => {
+                document.getElementById('resposta').innerText = 'Erro na requisição: ' + err.message;
+            });
+        });
+    </script>
+</body>
+</html>
