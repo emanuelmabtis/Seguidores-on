@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprar Seguidores</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 30px; background: #f5f5f5; margin: 0; }
+        input, button {
+            padding: 10px;
+            margin-top: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        h1 { color: #222; text-align: center; }
+        #resposta { margin-top: 20px; font-weight: bold; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .tabela-precos { width: 100%; margin-top: 30px; border-collapse: collapse; }
+        .tabela-precos th, .tabela-precos td { padding: 10px; text-align: center; border: 1px solid #ddd; }
+        .tabela-precos th { background-color: #4CAF50; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Comprar Seguidores</h1>
+        
+        <form id="pedidoForm">
+            <label>Link do perfil ou post:</label><br>
+            <input type="text" id="link" required><br>
+
+            <label>Quantidade:</label><br>
+            <input type="number" id="quantidade" min="10" required><br>
+
+            <button type="submit">Fazer Pedido</button>
+        </form>
+
+        <h2>Preços de Seguidores</h2>
+        <table class="tabela-precos">
+            <thead>
+                <tr>
+                    <th>Quantidade</th>
+                    <th>Preço (R$)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>10 seguidores</td>
+                    <td>R$ 1,00</td>
+                </tr>
+                <tr>
+                    <td>100 seguidores</td>
+                    <td>R$ 8,00</td>
+                </tr>
+                <tr>
+                    <td>500 seguidores</td>
+                    <td>R$ 25,00</td>
+                </tr>
+                <tr>
+                    <td>1000 seguidores</td>
+                    <td>R$ 45,00</td>
+                </tr>
+                <tr>
+                    <td>5000 seguidores</td>
+                    <td>R$ 180,00</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p id="resposta"></p>
+
+        <h3>Pagamento</h3>
+        <p>Escolha o valor a ser pago via Pix:</p>
+        <pre>Chave Pix: 86318823565</pre>
+        <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=00020126800014br.gov.bcb.pix0114+55719843968950240Pague%20o%20Valor%20Que%20Deseja%20Para%20Adicionar%205204000053039865802BR5920Emanuel%20Matos%20Borges6008Brasilia62240520daqr17322292603064586304402B" alt="QR Code Pix" />
+
+    </div>
+
+    <script>
+        document.getElementById('pedidoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const link = document.getElementById('link').value;
+            const quantidade = document.getElementById('quantidade').value;
+
+            // Adicionando os dados para a API
+            const dados = new URLSearchParams();
+            dados.append('key', '4300713fee62e5243a6ecee3001cd85e'); // Sua chave API
+            dados.append('action', 'add'); // Ação para adicionar seguidores
+            dados.append('service', '1'); // ID do serviço de seguidores (depende da API)
+            dados.append('link', link);
+            dados.append('quantity', quantidade);
+
+            // Enviar a solicitação para a API
+            fetch('https://upmidiass.net/api/v2', {
+                method: 'POST',
+                body: dados
+            })
+            .then(res => res.json())
+            .then(res => {
+                if (res.order) {
+                    document.getElementById('resposta').innerText = 'Pedido realizado com sucesso! ID do pedido: ' + res.order;
+                } else {
+                    document.getElementById('resposta').innerText = 'Erro: ' + JSON.stringify(res);
+                }
+            })
+            .catch(err => {
+                document.getElementById('resposta').innerText = 'Erro na requisição: ' + err.message;
+            });
+        });
+    </script>
+</body>
+</html>
