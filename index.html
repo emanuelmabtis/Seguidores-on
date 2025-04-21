@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comprar Seguidores</title>
+</head>
+<body>
+  <h1>Comprar Seguidores</h1>
+  
+  <form id="orderForm">
+    <label>Link do perfil ou post:</label><br>
+    <input type="text" id="link" required><br><br>
+    
+    <label>Quantidade:</label><br>
+    <input type="number" id="quantity" required><br><br>
+    
+    <button type="submit">Fazer Pedido</button>
+  </form>
+
+  <p id="response"></p>
+
+  <script>
+    const apiKey = 'SUA_API_KEY_AQUI'; // Cole sua API key aqui
+    const apiUrl = 'https://topsmm.club/api/v2';
+
+    document.getElementById('orderForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const link = document.getElementById('link').value;
+      const quantity = document.getElementById('quantity').value;
+
+      const data = new URLSearchParams();
+      data.append('key', apiKey);
+      data.append('action', 'add');
+      data.append('service', 'ID_DO_SERVIÇO'); // Substitua com o ID real do serviço
+      data.append('link', link);
+      data.append('quantity', quantity);
+
+      fetch(apiUrl, {
+        method: 'POST',
+        body: data
+      })
+      .then(res => res.json())
+      .then(response => {
+        if (response.order) {
+          document.getElementById('response').innerText = 'Pedido feito! ID: ' + response.order;
+        } else {
+          document.getElementById('response').innerText = 'Erro: ' + JSON.stringify(response);
+        }
+      })
+      .catch(err => {
+        document.getElementById('response').innerText = 'Erro na requisição: ' + err.message;
+      });
+    });
+  </script>
+</body>
+</html>
