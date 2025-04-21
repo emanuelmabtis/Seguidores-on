@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Comprar Seguidores</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background: linear-gradient(to right, #ff0000, #800080, #0000ff);
+            color: white;
+        }
+        input, button {
+            padding: 10px;
+            margin-top: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        #resposta {
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .form-container {
+            margin-top: 20px;
+        }
+        .table-container {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Seguidores On</h1>
+
+    <!-- Formulário de Pedido -->
+    <div class="form-container">
+        <form id="pedidoForm">
+            <label for="link">Link do perfil ou post:</label><br>
+            <input type="text" id="link" required><br><br>
+
+            <label for="quantidade">Quantidade de Seguidores:</label><br>
+            <input type="number" id="quantidade" required><br><br>
+
+            <button type="submit">Fazer Pedido</button>
+        </form>
+    </div>
+
+    <!-- Tabela de Preços -->
+    <div class="table-container">
+        <table border="1" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+            <thead>
+                <tr>
+                    <th>Quantidade</th>
+                    <th>Preço (R$)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1.000 Seguidores</td><td>R$ 9,00</td></tr>
+                <tr><td>2.000 Seguidores</td><td>R$ 16,00</td></tr>
+                <tr><td>3.000 Seguidores</td><td>R$ 23,00</td></tr>
+                <tr><td>5.000 Seguidores</td><td>R$ 38,00</td></tr>
+                <tr><td>10.000 Seguidores</td><td>R$ 70,00</td></tr>
+                <!-- Mais preços aqui -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Mensagem de Status -->
+    <p id="resposta"></p>
+
+    <script>
+        document.getElementById('pedidoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const link = document.getElementById('link').value;
+            const quantidade = document.getElementById('quantidade').value;
+
+            const dados = new URLSearchParams();
+            dados.append('key', '45d0fa57aa00e923691ca6534744e7d4'); // Sua chave API
+            dados.append('action', 'add');
+            dados.append('service', '1'); // ID do serviço (seguidores)
+            dados.append('link', link);
+            dados.append('quantity', quantidade);
+
+            fetch('https://topsmm.club/api/v2', {
+                method: 'POST',
+                body: dados
+            })
+            .then(res => res.json())
+            .then(res => {
+                if (res.order) {
+                    document.getElementById('resposta').innerText = 'Pedido realizado com sucesso! ID do pedido: ' + res.order;
+                } else {
+                    document.getElementById('resposta').innerText = 'Erro: ' + JSON.stringify(res);
+                }
+            })
+            .catch(err => {
+                document.getElementById('resposta').innerText = 'Erro na requisição: ' + err.message;
+            });
+        });
+    </script>
+</body>
+</html>
